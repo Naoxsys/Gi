@@ -71,64 +71,62 @@ document.addEventListener("DOMContentLoaded", () => {
 		const nextTitle = document.getElementById(`title-${ev.next}`);
 		if (!dot) return;
 		dot.addEventListener("click", () => {
-			dot.addEventListener("click", () => {
-				dot.style.fill = ev.color;
+			dot.style.fill = ev.color;
 
-				// 1) Normal chain unlocks (only when a next path exists)
-				if (path) {
-					path.classList.add("unlocked");
-					nextDot?.classList.add("unlocked");
-					nextTitle?.classList.add("unlocked");
-					icon?.classList.add("unlocked");
-					icon2?.classList.add("unlocked");
-					text?.classList.add("unlocked");
-					text2?.classList.add("unlocked");
+			// 1) Normal chain unlocks (only when a next path exists)
+			if (path) {
+				path.classList.add("unlocked");
+				nextDot?.classList.add("unlocked");
+				nextTitle?.classList.add("unlocked");
+				icon?.classList.add("unlocked");
+				icon2?.classList.add("unlocked");
+				text?.classList.add("unlocked");
+				text2?.classList.add("unlocked");
 
-					path.style.stroke = ev.color;
-					icon
-						?.querySelectorAll("*")
-						?.forEach((el) => (el.style.stroke = ev.color));
-					icon2
-						?.querySelectorAll("*")
-						?.forEach((el) => (el.style.stroke = ev.color));
-					title && (title.style.fill = ev.color);
-					text && (text.style.fill = ev.color);
-					text2 && (text2.style.fill = ev.color);
-				}
+				path.style.stroke = ev.color;
+				icon
+					?.querySelectorAll("*")
+					?.forEach((el) => (el.style.stroke = ev.color));
+				icon2
+					?.querySelectorAll("*")
+					?.forEach((el) => (el.style.stroke = ev.color));
+				title && (title.style.fill = ev.color);
+				text && (text.style.fill = ev.color);
+				text2 && (text2.style.fill = ev.color);
+			}
 
-				// 2) Terminal node: proposal (no next) — still show its inbound path + visuals
-				if (!ev.next && ev.name === "proposal") {
-					const proposalPath = document.getElementById("path-proposal");
-					proposalPath?.classList.add("unlocked");
-					proposalPath.style.stroke = ev.color;
+			// 2) Terminal node: proposal (no next) — still show its inbound path + visuals
+			if (!ev.next && ev.name === "proposal") {
+				const proposalPath = document.getElementById("path-proposal");
+				proposalPath?.classList.add("unlocked");
+				proposalPath.style.stroke = ev.color;
 
-					icon?.classList.add("unlocked");
-					icon2?.classList.add("unlocked");
-					text?.classList.add("unlocked");
-					text2?.classList.add("unlocked");
+				icon?.classList.add("unlocked");
+				icon2?.classList.add("unlocked");
+				text?.classList.add("unlocked");
+				text2?.classList.add("unlocked");
 
-					// Tint like the other steps
-					icon
-						?.querySelectorAll("*")
-						?.forEach((el) => (el.style.stroke = ev.color));
-					icon2
-						?.querySelectorAll("*")
-						?.forEach((el) => (el.style.stroke = ev.color));
-					title && (title.style.fill = ev.color);
-					text && (text.style.fill = ev.color);
-					text2 && (text2.style.fill = ev.color);
-				}
+				// Tint like the other steps
+				icon
+					?.querySelectorAll("*")
+					?.forEach((el) => (el.style.stroke = ev.color));
+				icon2
+					?.querySelectorAll("*")
+					?.forEach((el) => (el.style.stroke = ev.color));
+				title && (title.style.fill = ev.color);
+				text && (text.style.fill = ev.color);
+				text2 && (text2.style.fill = ev.color);
+			}
 
-				// 3) Popup — always runs (don’t gate it behind `if (path)`)
-				const popup = document.getElementById("event-popup");
-				const t = document.getElementById("popup-title");
-				const d = document.getElementById("popup-description");
-				if (popup && t && d) {
-					t.textContent = ev.title || ev.name;
-					d.textContent = ev.description || "No details yet.";
-					popup.style.display = "block";
-				}
-			});
+			// 3) Popup — always runs (don’t gate it behind `if (path)`)
+			const popup = document.getElementById("event-popup");
+			const t = document.getElementById("popup-title");
+			const d = document.getElementById("popup-description");
+			if (popup && t && d) {
+				t.textContent = ev.title || ev.name;
+				d.textContent = ev.description || "No details yet.";
+				popup.style.display = "block";
+			}
 		});
 
 		dot
