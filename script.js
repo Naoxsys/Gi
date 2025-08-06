@@ -164,4 +164,31 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
 		});
 	}
+
+	// Handle "somethingnext" image click lock check
+	const somethingNext = document.getElementById("img-somethingnext");
+	if (somethingNext) {
+		somethingNext.addEventListener("click", () => {
+			// Check if all dots are unlocked
+			const allDots = Array.from(document.querySelectorAll('[id^="dot-"]'));
+			const unlockedDots = allDots.filter((dot) =>
+				dot.classList.contains("unlocked")
+			);
+
+			if (unlockedDots.length < allDots.length) {
+				// Not all dots unlocked → show popup
+				const lockedPopup = document.getElementById("locked-popup");
+				if (lockedPopup) {
+					lockedPopup.classList.add("show");
+
+					setTimeout(() => {
+						lockedPopup.classList.remove("show");
+					}, 5000); // 5 seconds
+				}
+			} else {
+				// If all unlocked → you can trigger whatever the normal click would do
+				console.log("All unlocked! Proceed with normal action.");
+			}
+		});
+	}
 });

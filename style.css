@@ -59,7 +59,7 @@
 }
 
 .popup-content {
-	background: white;
+	background: #f5f5f5;
 	padding: 20px;
 	max-width: 400px;
 	margin: 10% auto;
@@ -166,4 +166,25 @@ svg {
 #img-somethingright {
 	animation: gentle-sway 4s ease-in-out infinite reverse;
 	transform-origin: center;
+}
+
+.locked-popup {
+	position: fixed;
+	top: -50px; /* Start hidden above screen */
+	left: 50%;
+	transform: translateX(-50%);
+	background: rgba(0, 0, 0, 0.85);
+	color: #f5f5f5;
+	padding: 10px 20px;
+	border-radius: 5px;
+	font-family: Inter, sans-serif;
+	font-size: 16px;
+	opacity: 0;
+	transition: all 0.5s ease;
+	z-index: 2000;
+}
+
+.locked-popup.show {
+	top: 20px; /* Slide down */
+	opacity: 1;
 }
