@@ -22,6 +22,8 @@
 	transform: translate(-50%, -50%);
 	width: min(520px, 90vw);
 	background: #fff;
+	border-radius: 5px;
+
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 	padding: 24px 28px;
 	font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
