@@ -132,6 +132,60 @@ document.addEventListener("DOMContentLoaded", () => {
 		dot
 			.closest('g[id^="event-"]')
 			?.parentNode?.appendChild(dot.closest('g[id^="event-"]'));
+
+		// Somethingnext click → show scrollable popup if all dots unlocked
+		const somethingNextImg = document.getElementById("img-somethingnext");
+		if (somethingNextImg) {
+			somethingNextImg.addEventListener("click", () => {
+				const allDots = Array.from(document.querySelectorAll('[id^="dot-"]'));
+				const allUnlocked = allDots.every((dot) => {
+					return (
+						dot.id === "dot-reddit" || // Always treat reddit as unlocked
+						dot.classList.contains("unlocked")
+					);
+				});
+
+				if (!allUnlocked) {
+					// If not unlocked → show a small notice popup instead
+					const lockedPopup = document.getElementById("locked-popup");
+					if (lockedPopup) {
+						lockedPopup.classList.add("show");
+						setTimeout(() => lockedPopup.classList.remove("show"), 5000);
+					}
+					return;
+				}
+
+				// If unlocked → show the scrollable popup
+				const popup = document.getElementById("somethingnext-popup");
+				const title = document.getElementById("somethingnext-title");
+				const desc = document.getElementById("somethingnext-description");
+
+				if (popup && title && desc) {
+					title.textContent = "Something Next";
+					desc.innerHTML = `
+        <p>This is a long text about something next. You can scroll this area if the content is long enough to exceed the popup height.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales dolor ac nibh vulputate, ac bibendum nisl tempor. Suspendisse potenti. Mauris vel massa id justo luctus tincidunt. Sed euismod ultrices mi, nec faucibus nunc gravida eu.</p>
+        <p>...</p>
+      `;
+					popup.style.display = "block";
+				}
+			});
+		}
+
+		// Close handler for somethingnext popup
+		document
+			.getElementById("somethingnext-popup-close")
+			?.addEventListener("click", () => {
+				const p = document.getElementById("somethingnext-popup");
+				if (p) p.style.display = "none";
+			});
+
+		document
+			.getElementById("somethingnext-popup")
+			?.addEventListener("click", (e) => {
+				if (e.target.id === "somethingnext-popup")
+					e.currentTarget.style.display = "none";
+			});
 	});
 
 	// Popup close behavior
@@ -162,33 +216,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			?.addEventListener("click", closeModal);
 		document.addEventListener("keydown", (e) => {
 			if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
-		});
-	}
-
-	// Handle "somethingnext" image click lock check
-	const somethingNext = document.getElementById("img-somethingnext");
-	if (somethingNext) {
-		somethingNext.addEventListener("click", () => {
-			// Check if all dots are unlocked
-			const allDots = Array.from(document.querySelectorAll('[id^="dot-"]'));
-			const unlockedDots = allDots.filter((dot) =>
-				dot.classList.contains("unlocked")
-			);
-
-			if (unlockedDots.length < allDots.length) {
-				// Not all dots unlocked → show popup
-				const lockedPopup = document.getElementById("locked-popup");
-				if (lockedPopup) {
-					lockedPopup.classList.add("show");
-
-					setTimeout(() => {
-						lockedPopup.classList.remove("show");
-					}, 5000); // 5 seconds
-				}
-			} else {
-				// If all unlocked → you can trigger whatever the normal click would do
-				console.log("All unlocked! Proceed with normal action.");
-			}
 		});
 	}
 });

@@ -188,3 +188,15 @@ svg {
 	top: 20px; /* Slide down */
 	opacity: 1;
 }
+
+.long-popup {
+	max-height: 80vh; /* Limit height so it doesn't go off-screen */
+	overflow-y: auto; /* Enable vertical scroll if needed */
+}
+
+/* Style the close button */
+#somethingnext-popup-close {
+	float: right;
+	cursor: pointer;
+	font-size: 20px;
+}
