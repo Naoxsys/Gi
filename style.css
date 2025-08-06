@@ -1,0 +1,169 @@
+/* Intro modal */
+#intro-modal {
+	position: fixed;
+	inset: 0;
+	display: none;
+	z-index: 1000;
+}
+#intro-modal.open {
+	display: block;
+}
+
+#intro-modal .intro-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+}
+
+#intro-modal .intro-dialog {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: min(520px, 90vw);
+	background: #fff;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+	padding: 24px 28px;
+	font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+		sans-serif;
+}
+
+#intro-modal .intro-close {
+	position: absolute;
+	right: 12px;
+	top: 8px;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+	font-size: 28px;
+	line-height: 1;
+}
+
+#intro-modal .intro-sub {
+	margin-top: 10px;
+	color: #666;
+	font-style: italic;
+	font-weight: 300;
+}
+
+/*popup*/
+.popup {
+	display: none; /* hidden until needed */
+	position: fixed;
+	z-index: 999;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+	background: white;
+	padding: 20px;
+	max-width: 400px;
+	margin: 10% auto;
+	border-radius: 8px;
+}
+
+#popup-close {
+	float: right;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+/* Hide all icons, texts, and paths except dots & titles */
+/* Always show music controls */
+#music-controls {
+	opacity: 1 !important;
+	pointer-events: auto !important;
+}
+[id^="icon-"],
+[id^="icon2-"],
+[id^="text-"],
+[id^="text2-"],
+[id^="path-"] {
+	opacity: 0;
+	transition: opacity 0.5s ease, stroke 0.5s ease, fill 0.5s ease;
+}
+
+[id^="dot-"] {
+	cursor: pointer;
+}
+
+.unlocked {
+	opacity: 1 !important;
+	pointer-events: auto !important;
+}
+
+html,
+body {
+	/* Hide all dots and titles except reddit */
+	[id^="dot-"],
+	[id^="title-"] {
+		opacity: 0;
+		pointer-events: none;
+		z-index: 1;
+	}
+	#dot-reddit,
+	#title-reddit {
+		opacity: 1 !important;
+		pointer-events: auto;
+		z-index: 1000;
+	}
+	background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	overflow: hidden; /* Prevent scrollbars */
+}
+
+svg {
+	height: 100vh; /* Fill the viewport height */
+	width: auto; /* Keep aspect ratio */
+	display: block;
+	margin: 0 auto; /* Center horizontally */
+}
+
+/* Gentle floating animation */
+@keyframes gentle-float {
+	0% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-4px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+/* Gentle sway for left/right images */
+@keyframes gentle-sway {
+	0% {
+		transform: rotate(0deg) translateY(0px);
+	}
+	50% {
+		transform: rotate(1deg) translateY(-4px);
+	}
+	100% {
+		transform: rotate(0deg) translateY(0px);
+	}
+}
+
+/* Music icon float */
+#icons-music {
+	animation: gentle-float 2s ease-in-out infinite;
+}
+
+/* Left image sway */
+#img-somethingleft {
+	animation: gentle-sway 4s ease-in-out infinite;
+	transform-origin: center;
+}
+
+/* Right image sway */
+#img-somethingright {
+	animation: gentle-sway 4s ease-in-out infinite reverse;
+	transform-origin: center;
+}
