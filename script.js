@@ -349,4 +349,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Only load, do not play on entry
 	loadTrack(currentTrack);
+
+	// Show playlist popup
+	document.getElementById("img-music-bigger")?.addEventListener("click", () => {
+		const popup = document.getElementById("music-playlist-popup");
+		const list = document.getElementById("music-playlist-list");
+
+		if (!popup || !list) return;
+
+		// Clear and repopulate playlist
+		list.innerHTML = "";
+		playlist.forEach((track, index) => {
+			const li = document.createElement("li");
+			li.textContent = track.name;
+			li.onclick = () => {
+				currentTrack = index;
+				loadTrack(index);
+				audio.addEventListener("canplay", playAndAnimateOnce, { once: true });
+				popup.style.display = "none";
+			};
+			list.appendChild(li);
+		});
+
+		popup.style.display = "flex";
+	});
+
+	// Close popup when clicking outside the box
+	document
+		.getElementById("music-playlist-popup")
+		?.addEventListener("click", (e) => {
+			if (e.target.id === "music-playlist-popup") {
+				e.currentTarget.style.display = "none";
+			}
+		});
+
+	// Close popup when clicking the "X" button
+	document
+		.getElementById("close-music-popup")
+		?.addEventListener("click", () => {
+			document.getElementById("music-playlist-popup").style.display = "none";
+		});
 });

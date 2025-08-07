@@ -226,3 +226,63 @@ svg {
 	cursor: pointer;
 	transition: transform 0.2s ease;
 }
+
+/* music popup playlist */
+.music-popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.7);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1001;
+}
+
+.music-popup-content {
+	background: #111;
+	color: #fff;
+	padding: 30px 20px;
+	border-radius: 12px;
+	width: 320px;
+	max-height: 80vh;
+	overflow-y: auto;
+	position: relative;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+	font-family: "Inter", sans-serif;
+}
+
+.music-popup-content h2 {
+	margin-top: 0;
+	margin-bottom: 20px;
+	color: #f5f5f5;
+	text-align: center;
+}
+
+#music-playlist-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#music-playlist-list li {
+	padding: 12px;
+	border-bottom: 1px solid #444;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+#music-playlist-list li:hover {
+	background-color: #222;
+}
+
+.close-btn {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 24px;
+	color: #fff;
+	cursor: pointer;
+}
