@@ -5,15 +5,24 @@ document.addEventListener("DOMContentLoaded", () => {
 			file: "music/Im yours - Fets.mp3",
 		},
 		{ name: "Latch - Sam Smith", file: "music/Latch (Acoustic).mp3" },
-		{ name: "Song 3", file: "music/song3.mp3" },
-		{ name: "Song 4", file: "music/song4.mp3" },
+		{ name: "One call away - Charlie Puth", file: "music/One Call Away.mp3" },
+		{ name: "Valentine - Kina Grannis", file: "music/Valentine.mp3" },
 		{
 			name: "Everywhere - Flatwood Mac",
 			file: "music/Everywhere (2017 Remaster).mp3",
 		},
-		{ name: "Song 6", file: "music/song6.mp3" },
-		{ name: "Song 7", file: "music/song7.mp3" },
-		{ name: "Song 8", file: "music/song8.mp3" },
+		{
+			name: "Your song - Ellie Goulding",
+			file: "music/Your Song (Bonus Track).mp3",
+		},
+		{
+			name: "On the nature of daylight - Max Richter",
+			file: "music/On the Nature of Daylight.mp3",
+		},
+		{
+			name: "Unconditionally - Katty Perry",
+			file: "music/Unconditionally.mp3",
+		},
 	];
 	let currentTrack = 0;
 	let unlockedSongs = [0]; // Only first song unlocked by default
@@ -33,21 +42,24 @@ document.addEventListener("DOMContentLoaded", () => {
 			next: "firstgame",
 			color: "#A0DEEE",
 			title: "First talk",
-			description: "“Le triangle”…",
+			description:
+				"By 'first talk' I mean the one we had on Discord. You seemed really nice and easy to talk to. Hmm… maybe I should phrase it differently? I have no idea how to write it all.",
 		},
 		{
 			name: "firstgame",
 			next: "firstmovie",
 			color: "#CCA9DD",
 			title: "First game",
-			description: "“Le triangle”…",
+			description:
+				"I remember (yes, I can remember things!) that before we played, I was a bit scared about how things would go. But while we were playing, it felt really cozy and fun, and after a while, I wasn’t scared at all. You were really funny  and you still are! I had a really nice night, so thank you for that and for everything else.",
 		},
 		{
 			name: "firstmovie",
 			next: "firstserie",
 			color: "#F0B0BC",
 			title: "First movie",
-			description: "“Le triangle”…",
+			description:
+				"I'm pretty sure we saw 'Saw' (hehe, saw Saw  I can make jokes too!). It was really nice to watch a movie with someone especially you. I really enjoyed, and still enjoy, your company a lot. Watching 'Saw' was fun and chill, not just because of the movie, but because I got to watch it with you. That’s when I realized I could spend time with you, even in silence, and still have fun and enjoy your presence.",
 		},
 		{
 			name: "firstserie",
@@ -61,14 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
 			next: "realisation",
 			color: "#CCA9DD",
 			title: "Minecraft",
-			description: "“Le triangle”…",
+			description:
+				"Why Minecraft, of all the games we played? Because it’s the one where you managed to get most of my siblings to play together and that meant so much to me. It’s through that game that my siblings met you, and they like you just as much as I do. You showed so much patience and kindness, it was honestly so sweet. I enjoy every second spent with you, and that’s amazing. That’s when I realized I could truly be myself around you, without any worry. The more I got to know you, the more I just wanted to spend time with you I couldn’t wish for anything more.",
 		},
 		{
 			name: "realisation",
 			next: "proposal",
 			color: "#F0B0BC",
 			title: "Realisation",
-			description: "“Le triangle”…",
+			description:
+				"After all the time we’ve spent together, and after a talk I had with my older brother, I realized something you are the best person I know. Every moment we've shared has been among the warmest and dearest in my life. I couldn’t wish for a better person to spend my time with, and that feeling is just amazing. You brighten my days and nights, and for someone to change my daily life like that... it’s something truly wonderful. You've filled my days with so much more than just happiness. That’s when I realized I’m in love with you.",
 		},
 		{
 			name: "proposal",
