@@ -193,7 +193,7 @@ svg {
 }
 
 .long-popup {
-	max-height: 80vh; /* Limit height so it doesn't go off-screen */
+	max-height: 50vh; /* Limit height so it doesn't go off-screen */
 	overflow-y: auto; /* Enable vertical scroll if needed */
 }
 
@@ -201,7 +201,7 @@ svg {
 #somethingnext-popup-close {
 	float: right;
 	cursor: pointer;
-	font-size: 20px;
+	font-size: 40px;
 }
 
 #img-somethingnext {

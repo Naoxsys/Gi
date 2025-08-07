@@ -66,7 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			next: "minecraft",
 			color: "#A0DEEE",
 			title: "First serie",
-			description: "“Le triangle”…",
+			description:
+				"What I really liked was that while we were watching, we kept messaging each other, even as we paid attention to the series. It showed me something that whether we're watching something, playing, talking, or just sitting in silence, the atmosphere between us stays the same peaceful and warm. Like a safe place where you could have the best sleep ever.",
 		},
 		{
 			name: "minecraft",
@@ -89,7 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			next: null, // No next dot to unlock
 			color: "#A0DEEE",
 			title: "Proposal",
-			description: "The big moment ❤️",
+			description:
+				"Even before you asked, I was already smiling at the thought of having you as my girlfriend. I don’t even know how to explain what I felt it was like fireworks. My whole soul felt it deeply, because you're so amazing. What you make me feel just by being yourself is incredible, and I don’t ever want to lose you. I want us to look toward the future and build something together. I’m really looking forward to it.",
 		},
 	];
 
@@ -208,9 +210,30 @@ document.addEventListener("DOMContentLoaded", () => {
 				if (popup && title && desc) {
 					title.textContent = "Something Next";
 					desc.innerHTML = `
-        <p>This is a long text about something next. You can scroll this area if the content is long enough to exceed the popup height.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales dolor ac nibh vulputate, ac bibendum nisl tempor. Suspendisse potenti. Mauris vel massa id justo luctus tincidunt. Sed euismod ultrices mi, nec faucibus nunc gravida eu.</p>
-        <p>...</p>
+       <p>Do you want to know something?</p>
+
+<p>There’s a calm that fills me every time I hear your voice like the world slows down just to let me breathe. And when you sing, it’s like the sky opens up just a little more. You don’t even realize how deeply you affect everything around you.</p>
+
+<p>Having you in my life has brought me more than just happiness it’s a feeling I can’t quite explain.</p>
+
+<p>It’s warmth. It’s peace. It’s joy. It’s light. It’s melody. It’s you.</p>
+
+<p>want to spend every second with you not because I need to fill time, but because you make time feel worth living.</p>
+
+<p>You carry something no one else does your dreams, your past, your way of seeing the world, and the strength you carry even in silence.</p>
+
+<p>Today is your day, and I just want to say this: I’m so thankful you were born.</p>
+
+<p>Because thanks to that, I get to know you. I get to love you.</p>
+
+<p>You’ve made ordinary days feel magical, and even silence with you feels full.</p>
+
+<p>Whatever we do, wherever life takes us  I know I’ll smile if you’re there with me.</p>
+
+<p>You deserve all the love and softness the world can offer  and I hope I can be a part of giving that to you.</p>
+
+<p>Happy Birthday. I love you my love.</p>
+
       `;
 					popup.style.display = "block";
 				}
