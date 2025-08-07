@@ -227,6 +227,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		},
 		{ name: "Latch - Sam Smith", file: "music/Latch (Acoustic).mp3" },
 		{ name: "Song 3", file: "music/song3.mp3" },
+		{ name: "Song 4", file: "music/song4.mp3" },
+		{ name: "Song 5", file: "music/song5.mp3" },
+		{ name: "Song 6", file: "music/song6.mp3" },
+		{ name: "Song 7", file: "music/song7.mp3" },
+		{ name: "Song 8", file: "music/song8.mp3" },
 	];
 	let currentTrack = 0;
 
@@ -345,6 +350,15 @@ document.addEventListener("DOMContentLoaded", () => {
 		audio.play();
 		showPauseIcon();
 		startSongNameAnimation(playlist[currentTrack].name);
+	}
+
+	const volumeSlider = document.getElementById("volume-slider");
+
+	if (volumeSlider && audio) {
+		// Update audio volume when the slider is changed
+		volumeSlider.addEventListener("input", (e) => {
+			audio.volume = parseFloat(e.target.value);
+		});
 	}
 
 	// Only load, do not play on entry
