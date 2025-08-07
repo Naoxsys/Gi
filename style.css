@@ -23,7 +23,6 @@
 	width: min(520px, 90vw);
 	background: #fff;
 	border-radius: 5px;
-
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 	padding: 24px 28px;
 	font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
@@ -115,7 +114,7 @@ body {
 	}
 	background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
 	margin: 0;
-	padding: 0;
+	padding: 10px;
 	height: 100%;
 	overflow: hidden; /* Prevent scrollbars */
 }
@@ -201,4 +200,29 @@ svg {
 	float: right;
 	cursor: pointer;
 	font-size: 20px;
+}
+
+#img-somethingnext {
+	cursor: pointer;
+}
+
+/* Style for the audio player */
+#name-music {
+	font-family: Inter, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	fill: white;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 150px;
+}
+
+#img-music-pause,
+#img-music-play,
+#img-music-next,
+#img-music-back,
+#img-music-bigger {
+	cursor: pointer;
+	transition: transform 0.2s ease;
 }

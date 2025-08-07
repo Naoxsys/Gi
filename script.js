@@ -218,4 +218,110 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
 		});
 	}
+
+	// Audio player controls
+	const playlist = [
+		{
+			name: "I'm yours - Avocuddle, Fets",
+			file: "music/noLyrics/Im yours - Fets.mp3",
+		},
+		{ name: "Song 2", file: "music/song2.mp3" },
+		{ name: "Song 3", file: "music/song3.mp3" },
+	];
+	let currentTrack = 0;
+
+	const audio = document.getElementById("audio-player");
+	const nameText = document.getElementById("name-music");
+	const pauseBtn = document.getElementById("img-music-pause");
+	const nextBtn = document.getElementById("img-music-next");
+	const backBtn = document.getElementById("img-music-back");
+
+	function loadTrack(index) {
+		const track = playlist[index];
+		if (!track) return;
+
+		audio.src = track.file;
+		audio.play();
+
+		const nameText = document.getElementById("name-music");
+		if (nameText) {
+			nameText.innerHTML = `<tspan id="name-music-tspan" x="1199" y="87.2273">${track.name}</tspan>`;
+			animateSongName();
+		}
+	}
+
+	pauseBtn?.addEventListener("click", () => {
+		if (audio.paused) {
+			audio.play();
+		} else {
+			audio.pause();
+		}
+	});
+
+	nextBtn?.addEventListener("click", () => {
+		currentTrack = (currentTrack + 1) % playlist.length;
+		loadTrack(currentTrack);
+	});
+
+	backBtn?.addEventListener("click", () => {
+		currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+		loadTrack(currentTrack);
+	});
+
+	// Auto-load the first song
+	loadTrack(currentTrack);
+
+	function animateSongName() {
+		const text = document.getElementById("name-music");
+		const tspan = document.getElementById("name-music-tspan");
+		if (!text || !tspan) return;
+
+		const originalText = tspan.textContent;
+		text.innerHTML = "";
+		text.setAttribute("transform", "translate(0, 0)");
+
+		// Create two clones of the text
+		const fullString = originalText + "   •   ";
+
+		const clone1 = document.createElementNS(
+			"http://www.w3.org/2000/svg",
+			"tspan"
+		);
+		const clone2 = document.createElementNS(
+			"http://www.w3.org/2000/svg",
+			"tspan"
+		);
+
+		clone1.textContent = fullString;
+		clone2.textContent = fullString;
+
+		clone1.setAttribute("x", "1199");
+		clone1.setAttribute("y", "87.2273");
+
+		text.appendChild(clone1);
+		text.appendChild(clone2);
+
+		requestAnimationFrame(() => {
+			const fullLength = clone1.getComputedTextLength();
+
+			clone2.setAttribute("x", 1199 + fullLength);
+			clone2.setAttribute("y", "87.2273");
+
+			let position = 0;
+
+			function scroll() {
+				position -= 0.2; // Lower = slower scroll
+
+				// Reset position when fully out of view
+				if (position <= -fullLength) {
+					position = 0;
+				}
+
+				text.setAttribute("transform", `translate(${position}, 0)`);
+				requestAnimationFrame(scroll);
+			}
+
+			scroll();
+		});
+	}
 });
