@@ -213,9 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 
-	document.getElementById("event-popup")?.addEventListener("click", (e) => {
-		if (e.target.id === "event-popup") e.currentTarget.style.display = "none";
-	});
+	// document.getElementById("event-popup")?.addEventListener("click", (e) => {
+	// 	if (e.target.id === "event-popup") e.currentTarget.style.display = "none";
+	// });
 
 	// Intro modal (show once per browser)
 	const modal = document.getElementById("intro-modal");
