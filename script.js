@@ -547,6 +547,13 @@ document.addEventListener("DOMContentLoaded", () => {
 					if (nextDot) nextDot.classList.add("unlocked");
 					if (nextTitle) nextTitle.classList.add("unlocked");
 				}
+				if (ev.name === "proposal") {
+					const proposalPath = document.getElementById("path-proposal");
+					if (proposalPath) {
+						proposalPath.classList.add("unlocked");
+						proposalPath.style.stroke = ev.color;
+					}
+				}
 			});
 		} catch (err) {
 			console.warn("Restore failed", err);
