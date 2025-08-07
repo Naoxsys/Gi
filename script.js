@@ -223,9 +223,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	const playlist = [
 		{
 			name: "I'm yours - Avocuddle, Fets",
-			file: "music/noLyrics/Im yours - Fets.mp3",
+			file: "music/Im yours - Fets.mp3",
 		},
-		{ name: "Song 2", file: "music/song2.mp3" },
+		{ name: "Latch - Sam Smith", file: "music/Latch (Acoustic).mp3" },
 		{ name: "Song 3", file: "music/song3.mp3" },
 	];
 	let currentTrack = 0;
@@ -251,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	let scrollPosition = 0;
 
 	function startSongNameAnimation(songName = "") {
+		stopSongNameAnimation();
 		const text = document.getElementById("name-music");
 		if (!text || !songName) return;
 
@@ -329,20 +330,22 @@ document.addEventListener("DOMContentLoaded", () => {
 	nextBtn?.addEventListener("click", () => {
 		currentTrack = (currentTrack + 1) % playlist.length;
 		loadTrack(currentTrack);
-		if (!audio.paused) {
-			audio.play();
-			startSongNameAnimation();
-		}
+
+		audio.addEventListener("canplay", playAndAnimateOnce, { once: true });
 	});
 
 	backBtn?.addEventListener("click", () => {
 		currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
 		loadTrack(currentTrack);
-		if (!audio.paused) {
-			audio.play();
-			startSongNameAnimation();
-		}
+
+		audio.addEventListener("canplay", playAndAnimateOnce, { once: true });
 	});
+
+	function playAndAnimateOnce() {
+		audio.play();
+		showPauseIcon();
+		startSongNameAnimation(playlist[currentTrack].name);
+	}
 
 	// Only load, do not play on entry
 	loadTrack(currentTrack);
