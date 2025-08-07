@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+	let unlockedSongs = [0]; // Only first song unlocked by default
+
 	const events = [
 		{
 			name: "reddit",
@@ -127,6 +129,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				d.textContent = ev.description || "No details yet.";
 				popup.style.display = "block";
 			}
+			// === UNLOCK NEXT SONG ===
+			if (unlockedSongs.length < playlist.length) {
+				unlockedSongs.push(unlockedSongs.length); // Unlock next song
+				updatePlaylistUI?.(); // only if function exists
+			}
 		});
 
 		dot
@@ -243,13 +250,14 @@ document.addEventListener("DOMContentLoaded", () => {
 	const backBtn = document.getElementById("img-music-back");
 
 	function loadTrack(index) {
-		const track = playlist[index];
-		if (!track) return;
+		if (!playlist[index]) return;
 
-		audio.src = track.file;
+		// Prevent loading if the track is locked
+		if (!unlockedSongs.includes(index)) return;
 
-		// Set song name
-		nameText.innerHTML = `<tspan id="name-music-tspan" x="1199" y="87.2273">${track.name}</tspan>`;
+		currentTrack = index;
+		audio.src = playlist[index].file;
+		nameText.innerHTML = `<tspan id="name-music-tspan" x="1199" y="87.2273">${playlist[index].name}</tspan>`;
 	}
 
 	let scrollAnimationId = null;
@@ -333,17 +341,29 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	nextBtn?.addEventListener("click", () => {
-		currentTrack = (currentTrack + 1) % playlist.length;
-		loadTrack(currentTrack);
-
-		audio.addEventListener("canplay", playAndAnimateOnce, { once: true });
+		let next = currentTrack + 1;
+		while (next < playlist.length && !unlockedSongs.includes(next)) {
+			next++;
+		}
+		if (next < playlist.length) {
+			loadTrack(next);
+			audio.play();
+			showPauseIcon();
+			startSongNameAnimation(playlist[next].name);
+		}
 	});
 
 	backBtn?.addEventListener("click", () => {
-		currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-		loadTrack(currentTrack);
-
-		audio.addEventListener("canplay", playAndAnimateOnce, { once: true });
+		let prev = currentTrack - 1;
+		while (prev >= 0 && !unlockedSongs.includes(prev)) {
+			prev--;
+		}
+		if (prev >= 0) {
+			loadTrack(prev);
+			audio.play();
+			showPauseIcon();
+			startSongNameAnimation(playlist[prev].name);
+		}
 	});
 
 	function playAndAnimateOnce() {
@@ -373,7 +393,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		// Clear and repopulate playlist
 		list.innerHTML = "";
-		playlist.forEach((track, index) => {
+		unlockedSongs.forEach((index) => {
+			const track = playlist[index];
 			const li = document.createElement("li");
 			li.textContent = track.name;
 			li.onclick = () => {
