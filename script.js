@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
-	// Audio player controls
+	// === Audio player setup ===
 	const playlist = [
 		{
 			name: "I'm yours - Avocuddle, Fets",
@@ -228,9 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		{ name: "Song 2", file: "music/song2.mp3" },
 		{ name: "Song 3", file: "music/song3.mp3" },
 	];
-
 	let currentTrack = 0;
-	let scrollAnimationId = null;
 
 	const audio = document.getElementById("audio-player");
 	const nameText = document.getElementById("name-music");
@@ -239,73 +237,27 @@ document.addEventListener("DOMContentLoaded", () => {
 	const nextBtn = document.getElementById("img-music-next");
 	const backBtn = document.getElementById("img-music-back");
 
-	// Load the first song without playing
-	loadTrack(currentTrack);
-
-	// PLAY / PAUSE EVENTS LISTENER (robust!)
-	audio.addEventListener("play", () => {
-		showPauseIcon();
-		startSongNameAnimation();
-	});
-
-	audio.addEventListener("pause", () => {
-		showPlayIcon();
-		stopSongNameAnimation();
-	});
-
 	function loadTrack(index) {
 		const track = playlist[index];
 		if (!track) return;
 
 		audio.src = track.file;
 
-		if (nameText) {
-			nameText.innerHTML = `<tspan id="name-music-tspan" x="1199" y="87.2273">${track.name}</tspan>`;
-		}
-		stopSongNameAnimation(); // make sure animation is reset
-		showPlayIcon();
+		// Set song name
+		nameText.innerHTML = `<tspan id="name-music-tspan" x="1199" y="87.2273">${track.name}</tspan>`;
 	}
 
-	pauseBtn?.addEventListener("click", () => {
-		audio.paused ? audio.play() : audio.pause();
-	});
+	let scrollAnimationId = null;
+	let scrollPosition = 0;
 
-	playBtn?.addEventListener("click", () => {
-		audio.play();
-	});
-
-	nextBtn?.addEventListener("click", () => {
-		currentTrack = (currentTrack + 1) % playlist.length;
-		loadTrack(currentTrack);
-		audio.play();
-	});
-
-	backBtn?.addEventListener("click", () => {
-		currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-		loadTrack(currentTrack);
-		audio.play();
-	});
-
-	function showPauseIcon() {
-		playBtn.style.display = "none";
-		pauseBtn.style.display = "block";
-	}
-
-	function showPlayIcon() {
-		pauseBtn.style.display = "none";
-		playBtn.style.display = "block";
-	}
-
-	function startSongNameAnimation() {
+	function startSongNameAnimation(songName = "") {
 		const text = document.getElementById("name-music");
-		const tspan = document.getElementById("name-music-tspan");
-		if (!text || !tspan) return;
+		if (!text || !songName) return;
 
-		const originalText = tspan.textContent;
 		text.innerHTML = "";
 		text.setAttribute("transform", "translate(0, 0)");
 
-		const fullString = originalText + "   •   ";
+		const fullString = songName + "   •   ";
 
 		const clone1 = document.createElementNS(
 			"http://www.w3.org/2000/svg",
@@ -321,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		clone1.setAttribute("x", "1199");
 		clone1.setAttribute("y", "87.2273");
+		clone2.setAttribute("y", "87.2273");
 
 		text.appendChild(clone1);
 		text.appendChild(clone2);
@@ -328,27 +281,69 @@ document.addEventListener("DOMContentLoaded", () => {
 		requestAnimationFrame(() => {
 			const fullLength = clone1.getComputedTextLength();
 			clone2.setAttribute("x", 1199 + fullLength);
-			clone2.setAttribute("y", "87.2273");
 
-			let position = 0;
+			scrollPosition = 0;
 
 			function scroll() {
-				position -= 0.2;
-				if (position <= -fullLength) {
-					position = 0;
-				}
-				text.setAttribute("transform", `translate(${position}, 0)`);
+				scrollPosition -= 0.2;
+				if (scrollPosition <= -fullLength) scrollPosition = 0;
+				text.setAttribute("transform", `translate(${scrollPosition}, 0)`);
 				scrollAnimationId = requestAnimationFrame(scroll);
 			}
 
-			scroll();
+			scrollAnimationId = requestAnimationFrame(scroll);
 		});
 	}
 
 	function stopSongNameAnimation() {
-		if (scrollAnimationId !== null) {
-			cancelAnimationFrame(scrollAnimationId);
-			scrollAnimationId = null;
-		}
+		cancelAnimationFrame(scrollAnimationId);
+		scrollAnimationId = null;
+
+		// Optional: reset position to 0
+		const text = document.getElementById("name-music");
+		if (text) text.setAttribute("transform", "translate(0, 0)");
 	}
+
+	function showPauseIcon() {
+		playBtn.style.display = "none";
+		pauseBtn.style.display = "block";
+	}
+
+	function showPlayIcon() {
+		pauseBtn.style.display = "none";
+		playBtn.style.display = "block";
+	}
+
+	playBtn?.addEventListener("click", () => {
+		audio.play();
+		showPauseIcon();
+		startSongNameAnimation(playlist[currentTrack].name); // Pass the name
+	});
+
+	pauseBtn?.addEventListener("click", () => {
+		audio.pause();
+		showPlayIcon();
+		stopSongNameAnimation(); // Stops and resets
+	});
+
+	nextBtn?.addEventListener("click", () => {
+		currentTrack = (currentTrack + 1) % playlist.length;
+		loadTrack(currentTrack);
+		if (!audio.paused) {
+			audio.play();
+			startSongNameAnimation();
+		}
+	});
+
+	backBtn?.addEventListener("click", () => {
+		currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+		loadTrack(currentTrack);
+		if (!audio.paused) {
+			audio.play();
+			startSongNameAnimation();
+		}
+	});
+
+	// Only load, do not play on entry
+	loadTrack(currentTrack);
 });
