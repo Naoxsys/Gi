@@ -358,11 +358,19 @@ document.addEventListener("DOMContentLoaded", () => {
 		while (next < playlist.length && !unlockedSongs.includes(next)) {
 			next++;
 		}
+
 		if (next < playlist.length) {
 			loadTrack(next);
 			audio.play();
 			showPauseIcon();
 			startSongNameAnimation(playlist[next].name);
+		} else {
+			// No more unlocked songs → show popup
+			const noMorePopup = document.getElementById("no-more-songs-popup");
+			if (noMorePopup) {
+				noMorePopup.classList.add("show");
+				setTimeout(() => noMorePopup.classList.remove("show"), 4000);
+			}
 		}
 	});
 
