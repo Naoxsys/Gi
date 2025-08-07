@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 	let unlockedSongs = [0]; // Only first song unlocked by default
+	let songJustUnlocked = false;
 
 	const events = [
 		{
@@ -131,8 +132,9 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 			// === UNLOCK NEXT SONG ===
 			if (unlockedSongs.length < playlist.length) {
-				unlockedSongs.push(unlockedSongs.length); // Unlock next song
-				updatePlaylistUI?.(); // only if function exists
+				unlockedSongs.push(unlockedSongs.length);
+				songJustUnlocked = true; // 🔥 set flag to show popup later
+				updatePlaylistUI?.();
 			}
 		});
 
@@ -199,7 +201,18 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("popup-close")?.addEventListener("click", () => {
 		const p = document.getElementById("event-popup");
 		if (p) p.style.display = "none";
+
+		// Show the unlock popup AFTER closing dot popup
+		if (songJustUnlocked) {
+			songJustUnlocked = false;
+			const songPopup = document.getElementById("song-unlocked-popup");
+			if (songPopup) {
+				songPopup.classList.add("show");
+				setTimeout(() => songPopup.classList.remove("show"), 4000);
+			}
+		}
 	});
+
 	document.getElementById("event-popup")?.addEventListener("click", (e) => {
 		if (e.target.id === "event-popup") e.currentTarget.style.display = "none";
 	});
