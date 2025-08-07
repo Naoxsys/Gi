@@ -795,7 +795,7 @@
 						/>
 					</g>
 				</g>
-				<g id="music-controls">
+				<g id="music-controls" transform="translate(-40 -60)">
 					<g id="img-music-pause" style="display: none">
 						<path
 							id="Vector"
@@ -824,13 +824,7 @@
 							fill="#F5F5F5"
 						/>
 					</g>
-					<g id="img-music-bigger" clip-path="url(#clip0_17_1647)">
-						<path
-							id="Vector_4"
-							d="M1368 3H1352.97L1358.75 8.78125L1351.81 15.7188L1355.28 19.1875L1362.22 12.25L1368 18.0312V3ZM1368 40V24.9688L1362.22 30.75L1355.28 23.8125L1351.81 27.2812L1358.75 34.2188L1352.97 40H1368ZM1331 40H1346.03L1340.25 34.2188L1347.19 27.2812L1343.72 23.8125L1336.78 30.75L1331 24.9688V40ZM1331 3V18.0312L1336.78 12.25L1343.72 19.1875L1347.19 15.7188L1340.25 8.78125L1346.03 3H1331Z"
-							fill="#F5F5F5"
-						/>
-					</g>
+
 					<g id="music-name-wrapper" clip-path="url(#music-name-clip)">
 						<text
 							id="name-music"
@@ -896,6 +890,20 @@
 							stroke-linecap="round"
 						/>
 					</g>
+				</g>
+				<g id="img-music-bigger" transform="translate(1330 43)">
+					<path
+						d="M3.8 26.6C5.89868 26.6 7.6 24.8987 7.6 22.8C7.6 20.7013 5.89868 19 3.8 19C1.70132 19 0 20.7013 0 22.8C0 24.8987 1.70132 26.6 3.8 26.6Z"
+						fill="white"
+					/>
+					<path
+						d="M3.8 17.1C5.89868 17.1 7.6 15.3987 7.6 13.3C7.6 11.2013 5.89868 9.5 3.8 9.5C1.70132 9.5 0 11.2013 0 13.3C0 15.3987 1.70132 17.1 3.8 17.1Z"
+						fill="white"
+					/>
+					<path
+						d="M3.8 7.6C5.89868 7.6 7.6 5.89868 7.6 3.8C7.6 1.70132 5.89868 0 3.8 0C1.70132 0 0 1.70132 0 3.8C0 5.89868 1.70132 7.6 3.8 7.6Z"
+						fill="white"
+					/>
 				</g>
 				<g id="something">
 					<rect
@@ -1295,6 +1303,13 @@
 		<div id="no-more-songs-popup" class="locked-popup">
 			Unlock more dots. :OO
 		</div>
+
+		<button
+			id="reset-progress"
+			style="position: fixed; bottom: 20px; right: 20px"
+		>
+			Reset Progress
+		</button>
 
 		<audio id="audio-player" src="music/Im yours - Fets.mp3"></audio>
 		<script src="script.js" defer></script>

@@ -1,4 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
+	const playlist = [
+		{
+			name: "I'm yours - Avocuddle, Fets",
+			file: "music/Im yours - Fets.mp3",
+		},
+		{ name: "Latch - Sam Smith", file: "music/Latch (Acoustic).mp3" },
+		{ name: "Song 3", file: "music/song3.mp3" },
+		{ name: "Song 4", file: "music/song4.mp3" },
+		{
+			name: "Everywhere - Flatwood Mac",
+			file: "music/Everywhere (2017 Remaster).mp3",
+		},
+		{ name: "Song 6", file: "music/song6.mp3" },
+		{ name: "Song 7", file: "music/song7.mp3" },
+		{ name: "Song 8", file: "music/song8.mp3" },
+	];
+	let currentTrack = 0;
 	let unlockedSongs = [0]; // Only first song unlocked by default
 	let songJustUnlocked = false;
 
@@ -76,6 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (!dot) return;
 		dot.addEventListener("click", () => {
 			dot.style.fill = ev.color;
+			dot.classList.add("unlocked");
+			dot.setAttribute("data-clicked", "true");
 
 			// 1) Normal chain unlocks (only when a next path exists)
 			if (path) {
@@ -134,9 +153,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			// === UNLOCK NEXT SONG ===
 			if (unlockedSongs.length < playlist.length) {
 				unlockedSongs.push(unlockedSongs.length);
-				songJustUnlocked = true; // 🔥 set flag to show popup later
-				updatePlaylistUI?.();
+				songJustUnlocked = true; // set flag to show popup later
+				saveProgress();
 			}
+
+			saveProgress();
 		});
 
 		dot
@@ -241,20 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	// === Audio player setup ===
-	const playlist = [
-		{
-			name: "I'm yours - Avocuddle, Fets",
-			file: "music/Im yours - Fets.mp3",
-		},
-		{ name: "Latch - Sam Smith", file: "music/Latch (Acoustic).mp3" },
-		{ name: "Song 3", file: "music/song3.mp3" },
-		{ name: "Song 4", file: "music/song4.mp3" },
-		{ name: "Song 5", file: "music/song5.mp3" },
-		{ name: "Song 6", file: "music/song6.mp3" },
-		{ name: "Song 7", file: "music/song7.mp3" },
-		{ name: "Song 8", file: "music/song8.mp3" },
-	];
-	let currentTrack = 0;
 
 	const audio = document.getElementById("audio-player");
 	const nameText = document.getElementById("name-music");
@@ -446,4 +453,103 @@ document.addEventListener("DOMContentLoaded", () => {
 		?.addEventListener("click", () => {
 			document.getElementById("music-playlist-popup").style.display = "none";
 		});
+
+	function saveProgress() {
+		const unlockedDotIds = [
+			...document.querySelectorAll('[data-clicked="true"]'),
+		]
+			.filter((el) => el.id?.startsWith("dot-"))
+			.map((el) => el.id);
+
+		const unlockedSongIndices = unlockedSongs;
+
+		localStorage.setItem("unlockedDots", JSON.stringify(unlockedDotIds));
+		localStorage.setItem("unlockedSongs", JSON.stringify(unlockedSongIndices));
+		localStorage.setItem("currentTrack", currentTrack);
+	}
+
+	document.getElementById("reset-progress")?.addEventListener("click", () => {
+		if (confirm("Are you sure you want to reset all progress?")) {
+			localStorage.clear();
+			location.reload();
+		}
+	});
+
+	restoreProgress();
+
+	function restoreProgress() {
+		try {
+			const redditDot = document.getElementById("dot-reddit");
+			if (redditDot) redditDot.classList.add("unlocked");
+			const unlockedDotIds =
+				JSON.parse(localStorage.getItem("unlockedDots")) || [];
+			const savedUnlockedSongs = JSON.parse(
+				localStorage.getItem("unlockedSongs")
+			) || [0];
+			currentTrack = parseInt(localStorage.getItem("currentTrack")) || 0;
+
+			// Restore unlocked songs
+			unlockedSongs = savedUnlockedSongs;
+
+			// Restore unlocked elements
+			unlockedDotIds.forEach((dotId) => {
+				const dot = document.getElementById(dotId);
+				if (!dot) return;
+
+				const name = dotId.replace("dot-", "");
+				const ev = events.find((e) => e.name === name);
+				if (!ev) return;
+
+				// Mark it as clicked so we can re-save properly
+				dot.setAttribute("data-clicked", "true");
+
+				const path = document.getElementById(`path-${ev.name}-${ev.next}`);
+				const title = document.getElementById(`title-${ev.name}`);
+				const icon = document.getElementById(`icon-${ev.name}`);
+				const icon2 = document.getElementById(`icon2-${ev.name}`);
+				const text = document.getElementById(`text-${ev.name}`);
+				const text2 = document.getElementById(`text2-${ev.name}`);
+
+				//  Only restore clicked node visuals, not the next one
+				dot.classList.add("unlocked");
+				dot.style.fill = ev.color;
+				if (title) {
+					title.style.fill = ev.color;
+					title?.classList.add("unlocked");
+				}
+				if (path) {
+					path.classList.add("unlocked");
+					path.style.stroke = ev.color;
+				}
+				if (icon) {
+					icon.classList.add("unlocked");
+					icon
+						.querySelectorAll("*")
+						.forEach((el) => (el.style.stroke = ev.color));
+				}
+				if (icon2) {
+					icon2.classList.add("unlocked");
+					icon2
+						.querySelectorAll("*")
+						.forEach((el) => (el.style.stroke = ev.color));
+				}
+				if (text) {
+					text.classList.add("unlocked");
+					text.style.fill = ev.color;
+				}
+				if (text2) {
+					text2.classList.add("unlocked");
+					text2.style.fill = ev.color;
+				}
+				if (ev.next) {
+					const nextDot = document.getElementById(`dot-${ev.next}`);
+					const nextTitle = document.getElementById(`title-${ev.next}`);
+					if (nextDot) nextDot.classList.add("unlocked");
+					if (nextTitle) nextTitle.classList.add("unlocked");
+				}
+			});
+		} catch (err) {
+			console.warn("Restore failed", err);
+		}
+	}
 });
