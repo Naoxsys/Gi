@@ -228,50 +228,75 @@ document.addEventListener("DOMContentLoaded", () => {
 		{ name: "Song 2", file: "music/song2.mp3" },
 		{ name: "Song 3", file: "music/song3.mp3" },
 	];
+
 	let currentTrack = 0;
+	let scrollAnimationId = null;
 
 	const audio = document.getElementById("audio-player");
 	const nameText = document.getElementById("name-music");
 	const pauseBtn = document.getElementById("img-music-pause");
+	const playBtn = document.getElementById("img-music-play");
 	const nextBtn = document.getElementById("img-music-next");
 	const backBtn = document.getElementById("img-music-back");
+
+	// Load the first song without playing
+	loadTrack(currentTrack);
+
+	// PLAY / PAUSE EVENTS LISTENER (robust!)
+	audio.addEventListener("play", () => {
+		showPauseIcon();
+		startSongNameAnimation();
+	});
+
+	audio.addEventListener("pause", () => {
+		showPlayIcon();
+		stopSongNameAnimation();
+	});
 
 	function loadTrack(index) {
 		const track = playlist[index];
 		if (!track) return;
 
 		audio.src = track.file;
-		audio.play();
 
-		const nameText = document.getElementById("name-music");
 		if (nameText) {
 			nameText.innerHTML = `<tspan id="name-music-tspan" x="1199" y="87.2273">${track.name}</tspan>`;
-			animateSongName();
 		}
+		stopSongNameAnimation(); // make sure animation is reset
+		showPlayIcon();
 	}
 
 	pauseBtn?.addEventListener("click", () => {
-		if (audio.paused) {
-			audio.play();
-		} else {
-			audio.pause();
-		}
+		audio.paused ? audio.play() : audio.pause();
+	});
+
+	playBtn?.addEventListener("click", () => {
+		audio.play();
 	});
 
 	nextBtn?.addEventListener("click", () => {
 		currentTrack = (currentTrack + 1) % playlist.length;
 		loadTrack(currentTrack);
+		audio.play();
 	});
 
 	backBtn?.addEventListener("click", () => {
 		currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
 		loadTrack(currentTrack);
+		audio.play();
 	});
 
-	// Auto-load the first song
-	loadTrack(currentTrack);
+	function showPauseIcon() {
+		playBtn.style.display = "none";
+		pauseBtn.style.display = "block";
+	}
 
-	function animateSongName() {
+	function showPlayIcon() {
+		pauseBtn.style.display = "none";
+		playBtn.style.display = "block";
+	}
+
+	function startSongNameAnimation() {
 		const text = document.getElementById("name-music");
 		const tspan = document.getElementById("name-music-tspan");
 		if (!text || !tspan) return;
@@ -280,7 +305,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		text.innerHTML = "";
 		text.setAttribute("transform", "translate(0, 0)");
 
-		// Create two clones of the text
 		const fullString = originalText + "   •   ";
 
 		const clone1 = document.createElementNS(
@@ -303,25 +327,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		requestAnimationFrame(() => {
 			const fullLength = clone1.getComputedTextLength();
-
 			clone2.setAttribute("x", 1199 + fullLength);
 			clone2.setAttribute("y", "87.2273");
 
 			let position = 0;
 
 			function scroll() {
-				position -= 0.2; // Lower = slower scroll
-
-				// Reset position when fully out of view
+				position -= 0.2;
 				if (position <= -fullLength) {
 					position = 0;
 				}
-
 				text.setAttribute("transform", `translate(${position}, 0)`);
-				requestAnimationFrame(scroll);
+				scrollAnimationId = requestAnimationFrame(scroll);
 			}
 
 			scroll();
 		});
+	}
+
+	function stopSongNameAnimation() {
+		if (scrollAnimationId !== null) {
+			cancelAnimationFrame(scrollAnimationId);
+			scrollAnimationId = null;
+		}
 	}
 });
