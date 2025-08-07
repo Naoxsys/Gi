@@ -454,6 +454,21 @@ document.addEventListener("DOMContentLoaded", () => {
 			document.getElementById("music-playlist-popup").style.display = "none";
 		});
 
+	audio.addEventListener("ended", () => {
+		let next = currentTrack + 1;
+
+		while (next < playlist.length && !unlockedSongs.includes(next)) {
+			next++;
+		}
+
+		if (next < playlist.length) {
+			loadTrack(next);
+			audio.play();
+			showPauseIcon();
+			startSongNameAnimation(playlist[next].name);
+		}
+	});
+
 	function saveProgress() {
 		const unlockedDotIds = [
 			...document.querySelectorAll('[data-clicked="true"]'),
