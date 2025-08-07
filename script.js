@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			color: "#F0B0BC",
 			title: "Reddit",
 			description:
-				"It's where everything started ! :D I remember wanting a new friendship, even though I knew I had some difficulties hanging out with people. But I wanted to try and see what would happen. I was really fladd you replied. I don't think there's anything else to say about it?",
+				"It's where everything started ! :D I remember wanting a new friendship, even though I knew I had some difficulties hanging out with people. But I wanted to try and see what would happen. I was really glad you replied. I don't think there's anything else to say about it?",
 		},
 		{
 			name: "firsttalk",
